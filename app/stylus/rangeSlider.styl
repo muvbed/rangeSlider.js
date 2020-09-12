@@ -1,0 +1,66 @@
+#text, #textStep
+	text-align center
+	font-family Arial
+	font-size 48px
+	margin 50px 0
+
+#input, #inputStep
+	display block
+	text-align center
+	font-family Arial
+	font-size 40px
+	margin 50px auto
+
+.rangeSlider
+	position relative
+	width 510px
+	margin 0 auto
+
+	&__current, &__fill
+		width 100%
+		height 14px
+		padding 4px 0
+		box-sizing border-box
+		overflow hidden
+
+	&__fill
+		width 0
+		margin-top -14px
+		overflow hidden
+
+		.rangeSlider__line, .rangeSlider__step
+			background-color #CC00CC
+
+	&__line
+		display flex
+		justify-content space-between
+		align-items center
+		width 510px
+		height 6px
+		background-color #E0E0E9
+
+	&__step
+		height 14px
+		width 6px
+		background-color #E0E0E9
+		border-radius 2px
+
+	&__thumb
+		position absolute
+		top 50%
+		display flex
+		justify-content center
+		align-items center
+		width 28px
+		height 28px
+		background-color #000
+		border-radius 50%
+		cursor pointer
+		transform translateY(-50%)
+
+		&:after
+			content ""
+			width calc(28px / 2)
+			height calc(28px / 2)
+			background-color #CC00CC
+			border-radius 50%

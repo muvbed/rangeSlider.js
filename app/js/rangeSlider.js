@@ -1,4 +1,4 @@
-function rangeSlider(arg) {
+window.rangeSlider = arg => {
 	if (arg.start == undefined || arg.start == null) {
 		arg.start = arg.min;
 	}
@@ -79,38 +79,40 @@ function rangeSlider(arg) {
 		let trackCoords = arg.track.getBoundingClientRect().left,
 			thumbCoords = e.pageX - arg.thumb.getBoundingClientRect().left;
 		
-		document.onmousemove = (e) => {
-			arg.step ? rangeSliderCycle(e.pageX - thumbCoords - trackCoords) : rangeSliderSmooth(e.pageX - thumbCoords - trackCoords);
+		document.addEventListener('mousemove', mouseMove);
+		document.addEventListener('mouseup', mouseUp);
 
-			return false;
+		function mouseMove(e) {
+			arg.step ? rangeSliderCycle(e.pageX - thumbCoords - trackCoords) : rangeSliderSmooth(e.pageX - thumbCoords - trackCoords);
 		}
 
-		document.onmouseup = () => {
-			document.onmousemove = document.onmouseup = null;
-		};
+		function mouseUp() {
+			document.removeEventListener('mousemove', mouseMove);
+			document.removeEventListener('mouseup', mouseUp);
+		}
 	})
 
 	arg.thumb.addEventListener("touchstart", (e) => {
 		let trackCoords = arg.track.getBoundingClientRect().left,
 			thumbCoords = e.changedTouches[0].pageX - arg.thumb.getBoundingClientRect().left;
-		
-		document.ontouchmove = (e) => {
-			arg.step ? rangeSliderCycle(e.pageX - thumbCoords - trackCoords) : rangeSliderSmooth(e.pageX - thumbCoords - trackCoords);
 
-			return false;
+		document.addEventListener('touchmove', touchMove);
+		document.addEventListener('touchend', touchEnd);
+
+		function touchMove(e) {
+			arg.step ? rangeSliderCycle(e.pageX - thumbCoords - trackCoords) : rangeSliderSmooth(e.pageX - thumbCoords - trackCoords);
 		}
 
-		document.ontouchend = () => {
-			document.ontouchmove = document.ontouchend = null;
-		};
+		function touchEnd() {
+			document.removeEventListener('touchmove', touchMove);
+			document.removeEventListener('touchend', touchEnd);
+		}
 	})
 
 	arg.track.addEventListener("click", (e) => {
 		let trackCoords = arg.track.getBoundingClientRect().left;
 
 		arg.step ? rangeSliderCycle(e.pageX - trackCoords - (arg.thumb.clientWidth / 2)) : rangeSliderSmooth(e.pageX - trackCoords - (arg.thumb.clientWidth / 2));
-
-		return false;
 	})
 
 	function rangeSliderSmooth(newValue) {
